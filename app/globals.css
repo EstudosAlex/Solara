@@ -7,3 +7,48 @@ input { padding: 8px; border: 1px solid #d6d3d1; border-radius: 4px; font-size: 
 button { padding: 10px; border: 0; border-radius: 4px; background: #ea580c; color: #fff; font-size: 16px; cursor: pointer; }
 button:disabled { opacity: .6; }
 .erro { color: #b91c1c; font-size: 14px; margin: 0; }
+main.largo { max-width: 960px; margin: 6vh auto; }
+a { color: #c2410c; }
+h2 { margin-top: 32px; }
+table { width: 100%; border-collapse: collapse; background: #fff; }
+th, td { text-align: left; padding: 8px; border-bottom: 1px solid #e7e5e4; font-size: 14px; }
+select, textarea { padding: 8px; border: 1px solid #d6d3d1; border-radius: 4px; font-size: 14px; }
+fieldset { border: 1px solid #e7e5e4; border-radius: 4px; }
+label.linha { flex-direction: row; align-items: center; gap: 8px; }
+.ok { color: #15803d; font-size: 14px; margin: 0; }
+.cartoes { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-top: 24px; }
+.cartao { display: flex; flex-direction: column; gap: 4px; padding: 24px; background: #fff; border: 1px solid #e7e5e4; border-radius: 8px; font-size: 18px; text-decoration: none; color: inherit; }
+a.cartao:hover { border-color: #ea580c; }
+.cartao.desativado { opacity: .5; }
+.cartao small { font-size: 12px; color: #78716c; }
+
+/* Organograma */
+.org { display: flex; flex-direction: column; align-items: center; }
+.org-no { min-width: 120px; padding: 10px 14px; border-radius: 8px; border: 1px solid #d6d3d1; background: #e7e5e4; text-align: center; font-size: 14px; }
+.org-no small { display: block; font-size: 11px; }
+.org-no.rodando { background: #fdba74; animation: pulsar 1s ease-in-out infinite; }
+.org-no.ok { background: #16a34a; border-color: #16a34a; color: #fff; }
+.org-no.erro { background: #dc2626; border-color: #dc2626; color: #fff; }
+.org-haste { width: 2px; height: 16px; background: #a8a29e; }
+.org-linha { display: flex; border-top: 2px solid #a8a29e; }
+.org-filho { display: flex; flex-direction: column; align-items: center; padding: 0 12px; }
+.org-filho::before { content: ""; width: 2px; height: 16px; background: #a8a29e; }
+.org-volta { align-self: flex-start; margin-top: 24px; font-size: 20px; color: #a8a29e; transition: color .2s; }
+.org-volta.vermelha { color: #dc2626; }
+@keyframes pulsar { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
+
+/* Fila de aprovação e linha do tempo */
+.fila-item { background: #fff; border: 1px solid #e7e5e4; border-radius: 8px; margin-bottom: 8px; }
+.fila-item > button.titulo { width: 100%; text-align: left; }
+.fila-corpo { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.fila-botoes { display: flex; gap: 8px; flex-wrap: wrap; }
+button.secundario { background: #57534e; }
+button.perigo { background: #b91c1c; }
+pre { background: #f5f5f4; padding: 8px; border-radius: 4px; overflow: auto; font-size: 12px; max-height: 300px; }
+textarea { width: 100%; font-family: ui-monospace, monospace; min-height: 160px; }
+.tempo-item { background: #fff; border: 1px solid #e7e5e4; border-radius: 8px; margin-bottom: 8px; padding: 8px 12px; }
+.tempo-item summary { cursor: pointer; font-size: 14px; }
+.tag { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; background: #e7e5e4; }
+.tag.ok { background: #bbf7d0; color: #166534; }
+.tag.erro { background: #fecaca; color: #991b1b; }
+.tag.rodando { background: #fed7aa; color: #9a3412; }
