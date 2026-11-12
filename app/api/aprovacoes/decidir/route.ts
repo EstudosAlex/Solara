@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { criarClienteAdmin } from "@/lib/supabase/servidor";
 import { perfilDaRequisicao } from "@/lib/perfil";
+import { decidirDivergencia } from "@/lib/financeiro/decisao";
 
 const DECISOES = ["aprovada", "editada", "rejeitada"];
 
@@ -21,7 +22,7 @@ export async function POST(req: Request) {
   const admin = criarClienteAdmin();
   const { data: item } = await admin
     .from("aprovacoes")
-    .select("id, area, status")
+    .select("id, area, status, item_tipo, item_id")
     .eq("id", id)
     .maybeSingle();
   if (!item) {
@@ -49,6 +50,31 @@ export async function POST(req: Request) {
     .eq("status", "pendente");
   if (error) {
     return NextResponse.json({ erro: error.message }, { status: 500 });
+  }
+
+  // Financeiro: a decisão resolve ou devolve a divergência e atualiza os títulos.
+  if (item.area === "financeiro" && item.item_tipo === "divergencia") {
+    try {
+      await decidirDivergencia(item.item_id, decisao);
+    } catch (e) {
+      return NextResponse.json(
+        { erro: e instanceof Error ? e.message : String(e) },
+        { status: 500 }
+      );
+    }
+  }
+
+  // Move o card do pedido: aprovar/editar -> respondido; rejeitar -> rejeitado.
+  if (item.area === "vendas" && item.item_tipo === "pedido") {
+    const novoStatusPedido = decisao === "rejeitada" ? "rejeitado" : "respondido";
+    const { error: erroPedido } = await admin
+      .from("pedidos_orcamento")
+      .update({ status: novoStatusPedido })
+      .eq("cod_pedido", item.item_id)
+      .eq("status", "aguardando_aprovacao");
+    if (erroPedido) {
+      return NextResponse.json({ erro: erroPedido.message }, { status: 500 });
+    }
   }
   return NextResponse.json({ ok: true });
 }

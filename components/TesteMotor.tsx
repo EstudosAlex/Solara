@@ -10,7 +10,7 @@ export default function TesteMotor() {
   const [ocupado, setOcupado] = useState(false);
   const [resultado, setResultado] = useState("");
 
-  async function acao(nome: "simular" | "real" | "limpar") {
+  async function acao(nome: "simular" | "limpar") {
     setOcupado(true);
     setResultado("");
     const resp = await fetch("/api/teste-motor", {
@@ -28,9 +28,6 @@ export default function TesteMotor() {
       <div className="fila-botoes">
         <button disabled={ocupado} onClick={() => acao("simular")}>
           Simular pedido (≈9 s)
-        </button>
-        <button className="secundario" disabled={ocupado} onClick={() => acao("real")}>
-          Chamar triador de verdade
         </button>
         <button className="perigo" disabled={ocupado} onClick={() => acao("limpar")}>
           Limpar dados de teste

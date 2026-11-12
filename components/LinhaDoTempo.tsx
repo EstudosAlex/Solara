@@ -16,8 +16,16 @@ type Execucao = {
   fim: string | null;
 };
 
-export default function LinhaDoTempo({ item_id }: { item_id: string }) {
-  const [execucoes, setExecucoes] = useState<Execucao[]>([]);
+// divergencia_id (opcional): mostra só as execuções dessa divergência e a raiz do orquestrador.
+export default function LinhaDoTempo({ item_id, divergencia_id }: { item_id: string; divergencia_id?: string }) {
+  const [todas, setTodas] = useState<Execucao[]>([]);
+  const execucoes = divergencia_id
+    ? todas.filter(
+        (e) =>
+          (e.entrada as { divergencia_id?: string } | null)?.divergencia_id === divergencia_id ||
+          e.agente === "orquestrador"
+      )
+    : todas;
 
   useEffect(() => {
     const supabase = criarClienteNavegador();
@@ -29,7 +37,7 @@ export default function LinhaDoTempo({ item_id }: { item_id: string }) {
         .select("*")
         .eq("item_id", item_id)
         .order("inicio", { ascending: true });
-      if (ativo && data) setExecucoes(data as Execucao[]);
+      if (ativo && data) setTodas(data as Execucao[]);
     }
     carregar();
 

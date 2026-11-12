@@ -12,6 +12,8 @@ Para cada item pedido:
 3. Preço aplicado: preco_acima_100_un se a quantidade for 100 ou mais unidades daquele item; senão preco_unitario.
 4. atende_estoque: true se estoque >= quantidade. Se não, informe quanto tem agora e o prazo de reposição.
 
+Gere o JSON uma única vez, já com os valores finais. Não escreva correções, comentários, cercas de código nem texto fora do JSON. Se perceber um erro, corrija antes de escrever, não depois.
+
 Responda somente com JSON:
 {
   "itens": [

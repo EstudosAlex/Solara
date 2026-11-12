@@ -20,13 +20,46 @@ export type ContextoAgente = {
 
 const MODELO = "claude-sonnet-4-6";
 
-// Aceita JSON puro ou embrulhado em cerca de código.
+// Índice da "}" que fecha o objeto que começa em `inicio`, ignorando chaves dentro de strings.
+function fimDoObjeto(texto: string, inicio: number): number {
+  let profundidade = 0;
+  let emString = false;
+  let escape = false;
+  for (let i = inicio; i < texto.length; i++) {
+    const c = texto[i];
+    if (emString) {
+      if (escape) escape = false;
+      else if (c === "\\") escape = true;
+      else if (c === '"') emString = false;
+      continue;
+    }
+    if (c === '"') emString = true;
+    else if (c === "{") profundidade++;
+    else if (c === "}") {
+      profundidade--;
+      if (profundidade === 0) return i;
+    }
+  }
+  return -1;
+}
+
+// Aceita JSON puro, embrulhado em cerca de código ou com texto ao redor.
+// Se o modelo escrever mais de um objeto (ex.: uma "correção" no meio), vale o último
+// objeto JSON válido. Se nenhum for válido, lança erro: é falha do agente.
 function lerJson(texto: string) {
-  const limpo = texto
-    .trim()
-    .replace(/^```(?:json)?\s*/i, "")
-    .replace(/\s*```$/, "");
-  return JSON.parse(limpo);
+  let ultimo: { valor: unknown } | null = null;
+  for (let s = texto.indexOf("{"); s >= 0; s = texto.indexOf("{", s + 1)) {
+    const fim = fimDoObjeto(texto, s);
+    if (fim < 0) continue;
+    try {
+      ultimo = { valor: JSON.parse(texto.slice(s, fim + 1)) };
+      s = fim;
+    } catch {
+      // não é JSON válido a partir daqui; tenta o próximo "{"
+    }
+  }
+  if (!ultimo) throw new SyntaxError("nenhum objeto JSON válido na resposta");
+  return ultimo.valor;
 }
 
 export async function agente(
@@ -76,11 +109,18 @@ export async function agente(
       .map((b) => (b.type === "text" ? b.text : ""))
       .join("");
 
+    if (resposta.stop_reason === "max_tokens") {
+      throw new Error(
+        `Resposta do ${papel} cortada pelo limite de 2000 tokens antes do JSON terminar.`
+      );
+    }
+
     let saida: any;
     try {
       saida = lerJson(texto);
     } catch {
-      throw new Error(`Resposta do ${papel} não é JSON válido: ${texto.slice(0, 200)}`);
+      // Guarda o texto completo (até 4000 caracteres) para diagnóstico na linha do tempo.
+      throw new Error(`Resposta do ${papel} não é JSON válido: ${texto.slice(0, 4000)}`);
     }
 
     await banco

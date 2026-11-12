@@ -8,6 +8,7 @@ button { padding: 10px; border: 0; border-radius: 4px; background: #ea580c; colo
 button:disabled { opacity: .6; }
 .erro { color: #b91c1c; font-size: 14px; margin: 0; }
 main.largo { max-width: 960px; margin: 6vh auto; }
+main.amplo { max-width: 1200px; margin: 4vh auto; }
 a { color: #c2410c; }
 h2 { margin-top: 32px; }
 table { width: 100%; border-collapse: collapse; background: #fff; }
@@ -52,3 +53,37 @@ textarea { width: 100%; font-family: ui-monospace, monospace; min-height: 160px;
 .tag.ok { background: #bbf7d0; color: #166534; }
 .tag.erro { background: #fecaca; color: #991b1b; }
 .tag.rodando { background: #fed7aa; color: #9a3412; }
+
+/* Vendas: kanban, topo com organograma e painel lateral */
+.vendas-topo { background: #fff; border: 1px solid #e7e5e4; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; }
+.vendas-topo h2 { margin: 0 0 8px; font-size: 16px; }
+.kanban { display: grid; grid-template-columns: repeat(5, minmax(170px, 1fr)); gap: 12px; align-items: start; }
+@media (max-width: 1000px) { .kanban { grid-template-columns: 1fr; } }
+.kanban-coluna { background: #eeedeb; border-radius: 8px; padding: 8px; min-height: 200px; }
+.kanban-coluna h3 { font-size: 13px; margin: 4px 0 8px; color: #57534e; }
+.kanban-cartao { background: #fff; border: 1px solid #e7e5e4; border-radius: 6px; padding: 8px; margin-bottom: 8px; font-size: 13px; cursor: pointer; display: flex; flex-direction: column; gap: 4px; }
+.kanban-cartao.selecionado { border-color: #ea580c; box-shadow: 0 0 0 1px #ea580c; }
+.kanban-cartao small { color: #78716c; }
+.kanban-cartao button { padding: 4px 8px; font-size: 13px; align-self: flex-start; }
+.painel-lateral { position: fixed; top: 0; right: 0; bottom: 0; width: 380px; max-width: 100%; background: #fff; border-left: 1px solid #e7e5e4; padding: 16px; overflow: auto; box-shadow: -4px 0 12px rgba(0, 0, 0, .08); z-index: 10; }
+.painel-cabecalho { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px; }
+.painel-cabecalho button { padding: 4px 10px; font-size: 13px; }
+
+/* Abas, avisos de validação e e-mail na fila de aprovação */
+.abas { display: flex; gap: 8px; margin: 8px 0 16px; }
+button.aba { background: #e7e5e4; color: #1c1917; padding: 8px 16px; font-size: 14px; }
+button.aba.ativa { background: #ea580c; color: #fff; }
+.aviso-validar { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 8px 12px; border-radius: 6px; font-size: 14px; }
+.aviso-validar ul { margin: 4px 0 0; padding-left: 18px; }
+textarea.email-editor { min-height: 320px; font-family: system-ui, sans-serif; font-size: 15px; line-height: 1.5; background: #fafaf9; }
+
+/* Financeiro: importação, listas de lançamentos e relatório */
+.bloco { background: #fff; border: 1px solid #e7e5e4; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+.bloco h2 { margin: 0 0 12px; font-size: 16px; }
+.antes-depois { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+.antes-depois h3 { font-size: 13px; margin: 0 0 6px; color: #57534e; }
+.antes-depois pre { white-space: pre; font-size: 11px; max-height: 240px; }
+.lista-lancamentos { list-style: none; padding: 0; margin: 0 0 16px; }
+.lista-lancamentos li { background: #fff; border: 1px solid #e7e5e4; border-radius: 6px; padding: 6px 10px; margin-bottom: 6px; font-size: 13px; display: flex; justify-content: space-between; gap: 8px; }
+.lista-lancamentos li.casado { border-left: 4px solid #16a34a; }
+.relatorio { white-space: pre-wrap; background: #fff; border: 1px solid #e7e5e4; padding: 16px; border-radius: 8px; font-size: 14px; line-height: 1.5; max-height: none; }

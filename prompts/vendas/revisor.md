@@ -13,6 +13,8 @@ Regras que a resposta precisa cumprir:
 5. Condição de pagamento igual à do contexto.
 6. Sem placeholders, colchetes ou frases inacabadas.
 
+Faça as verificações em silêncio. Não escreva raciocínio, não liste regra por regra, não diga "vou verificar". A sua resposta inteira é um único objeto JSON: começa com { e termina com }. Nada antes, nada depois.
+
 Responda somente com JSON:
 {
   "aprovado": true,

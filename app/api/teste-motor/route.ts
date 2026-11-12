@@ -2,7 +2,6 @@
 import { NextResponse } from "next/server";
 import { criarClienteAdmin } from "@/lib/supabase/servidor";
 import { perfilDaRequisicao } from "@/lib/perfil";
-import { agente } from "@/lib/agente";
 
 export const maxDuration = 60;
 
@@ -23,23 +22,6 @@ export async function POST(req: Request) {
     await banco.from("execucoes_agentes").delete().eq("item_id", ITEM_ID);
     await banco.from("aprovacoes").delete().eq("item_id", ITEM_ID);
     return NextResponse.json({ ok: true });
-  }
-
-  if (acao === "real") {
-    try {
-      const { saida, execucao_id } = await agente(
-        "triador",
-        {
-          mensagem: "Bom dia, preciso de 200 parafusos sextavados M8 e 10 caixas de luva de raspa. Prazo até sexta.",
-          canal: "whatsapp",
-          cliente: { cod_cliente: "CLI001", nome: "Cliente de Teste", segmento: "industria" },
-        },
-        base
-      );
-      return NextResponse.json({ ok: true, execucao_id, saida });
-    } catch (e) {
-      return NextResponse.json({ erro: e instanceof Error ? e.message : String(e) }, { status: 500 });
-    }
   }
 
   if (acao === "simular") {

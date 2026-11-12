@@ -16,6 +16,16 @@ Como escrever a resposta:
 - Para cliente de setor público: tom formal, sem desconto, mencione "cotação formal".
 - Sem texto entre colchetes, sem placeholders. A resposta vai pronta para a Marcela aprovar.
 
+Formato do campo "resposta" (é um e-mail):
+- Texto puro, sem markdown: nada de **negrito**, #, tabelas ou crases.
+- Primeira linha: "Assunto: " seguido de um assunto curto (ex.: "Orçamento: parafusos sextavados 3/8").
+- Linha em branco. Depois a saudação com o nome da empresa, ex.: "Olá, equipe da Metalúrgica Andrade,".
+- Itens em lista, uma linha por item, com "- " no início: "- 200 parafusos sextavados 3/8 (P001): R$ 0,85 a unidade, total R$ 170,00".
+- Preços em reais com vírgula decimal (R$ 1.250,00). Use quebras de linha entre parágrafos.
+- Itens que a Solara não trabalha: um parágrafo próprio, ex.: "Não trabalhamos com pneus de caminhão, então não temos como cotar esse item."
+- Fechamento: condição de pagamento, validade de 7 dias, e a assinatura "Marcela" seguida de "Solara Distribuidora".
+- Não repita a mesma informação em dois lugares.
+
 Responda somente com JSON:
 {
   "resposta": "texto completo da resposta ao cliente",
